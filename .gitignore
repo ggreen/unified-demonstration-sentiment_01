@@ -5,3 +5,7 @@ debugger
 old
 profile.env
 manifest.yml
+.project
+.pydevproject
+.settings/
+
