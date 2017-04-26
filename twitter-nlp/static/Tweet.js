@@ -3,8 +3,12 @@ var messageJSON;
 
 $(document).ready(
     function() {
-        sse = new EventSource('/live_tweets');
+        //sse = new EventSource('/live_tweets'); //GG
+    	sse = new EventSource('http://localhost:8080/live_tweets');
         sse.onmessage = function(message) {
+        	
+        	console.log("data: "+message.data);
+        	
                 if (numMessages > 10) {
                     document.getElementById("output").deleteRow(-1);
                 }
@@ -12,6 +16,10 @@ $(document).ready(
                 $('#output').prepend('<tr id="tweet-row"> ' +
                 '<td id="tweet-cell" class="col-sm-10">&nbsp<div class="verticalLine">'+ urlify(messageJSON.tweet) + '</div></td>' +
                 '<td id="sentiment-cell" class="col-sm-2">' + polarityToLabel(messageJSON.polarity) + '</td> </tr>');
+        }
+        sse.onerror = function(error) {
+        	
+        	console.log("error: "+error);
         }
     }
 );

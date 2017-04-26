@@ -7,11 +7,17 @@ import org.apache.geode.cache.EvictionAttributes;
 import org.apache.geode.cache.ExpirationAttributes;
 import org.apache.geode.cache.PartitionAttributes;
 import org.apache.geode.cache.RegionAttributes;
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.pdx.ReflectionBasedAutoSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.cloud.Cloud;
+import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.gemfire.CacheFactoryBean;
 import org.springframework.data.gemfire.PartitionAttributesFactoryBean;
 import org.springframework.data.gemfire.PartitionedRegionFactoryBean;
@@ -22,8 +28,12 @@ import org.springframework.data.gemfire.eviction.EvictionPolicyType;
 import org.springframework.data.gemfire.expiration.ExpirationActionType;
 import org.springframework.data.gemfire.expiration.ExpirationAttributesFactoryBean;
 
+import io.pivotal.spring.cloud.service.gemfire.GemfireServiceConnectorConfig;
+
+@Configuration
 public class DemoConfig
 {
+	
 	// NOTE ideally, "placeholder" properties used by Spring's PropertyPlaceholderConfigurer would be externalized
 	// in order to avoid re-compilation on property value changes (so... this is just an example)!
 	@Bean
@@ -173,4 +183,23 @@ public class DemoConfig
 
 		return partitionAttributes;
 	}
+	
+	public ServiceConnectorConfig createGemfireConnectorConfig() {
+
+        GemfireServiceConnectorConfig gemfireConfig = new GemfireServiceConnectorConfig();
+        gemfireConfig.setPoolSubscriptionEnabled(true);
+        gemfireConfig.setPdxSerializer(new ReflectionBasedAutoSerializer(".*"));
+        gemfireConfig.setPdxReadSerialized(false);
+        
+        return gemfireConfig;
+	}
+
+	@Bean(name = "gemfireCache")
+    public ClientCache getGemfireClientCache() throws Exception {		
+		
+		Cloud cloud = new CloudFactory().getCloud();
+		ClientCache clientCache = cloud.getSingletonServiceConnector(ClientCache.class,  createGemfireConnectorConfig());
+
+        return clientCache;
+    }
 }

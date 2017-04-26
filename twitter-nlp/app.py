@@ -61,7 +61,11 @@ def get_tweet_stats():
 
 @app.route('/live_tweets')
 def live_tweets_sse():
-    return Response(gen_dashboard_tweets(),mimetype='text/event-stream')
+    #tweet_sent = {"data": json.dumps({"tweet": msg['text'],
+    #                                      "polarity": '{:1.2f}'.format(msg['polarity'])})}
+    #yield (helper_functions.sse_pack(tweet_sent))
+    return "data: testing"
+    #return Response(gen_dashboard_tweets(),mimetype='text/event-stream')
 
 @app.route('/tweet_rate')
 def tweet_rate_sse():

@@ -8,7 +8,9 @@ var startTime = d.getTime();
 var curData;
 var tweetRate = 0;
 var msg = {tweetRate:0, avgPolarity: 0};
-sse1 = new EventSource('/tweet_rate');
+//sse1 = new EventSource('/tweet_rate');
+
+sse1 = new EventSource('http://localhost:8080/tweet_rate');
 sse1.onmessage = function(message) {
     msg = JSON.parse(message.data)
 };
@@ -126,6 +128,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+//GG
 function updateStats() {
     // tweets per minute
     var numTweets = curData.reduce(function(a, b) { return a + b; }, 0);
@@ -136,9 +139,13 @@ function updateStats() {
     $("#tweetsPerMinute").text(numberWithCommas(tweetsPerMin));
 
     // total tweets
-    $.get( sentimentStatsURL + "/num_tweets", function( data ) {
+    //http://localhost:8080/num_tweets
+    $.get( "http://localhost:8080/num_tweets", function( data ) {
+        $("#totalTweets").text(numberWithCommas(data));
+   });
+   /* $.get( sentimentStatsURL + "/num_tweets", function( data ) {
          $("#totalTweets").text(numberWithCommas(data));
-    });
+    });*/
 }
 
 setInterval(updateStats, 1000);

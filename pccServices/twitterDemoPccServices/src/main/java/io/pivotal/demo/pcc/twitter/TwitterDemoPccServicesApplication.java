@@ -12,15 +12,17 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @RestController
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan()
 //@PropertySource("classpath:application.yml")
 //@PropertySource("application.yml")
 //@ImportResource(locations = {"classpath:cache-config.xml"})
 @ConfigurationProperties
+@EnableWebMvc
 //@EnableGemfireRepositories(basePackageClasses= {RecipientDAORepository.class})
 @Configuration
 public class TwitterDemoPccServicesApplication {
