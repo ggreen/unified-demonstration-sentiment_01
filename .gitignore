@@ -8,4 +8,5 @@ manifest.yml
 .project
 .pydevproject
 .settings/
+*.swp
 

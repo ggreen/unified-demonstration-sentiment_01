@@ -53,4 +53,6 @@ The project was inspired in part by [BirdWatch](https://github.com/matthiasn/Bir
 
 Git Project: [https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01](https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01)
 
-For the Java version deployed on PWS: [http://twitterdemopccservices.cfapps.io/] (http://twitterdemopccservices.cfapps.io/)
+Java deployed on PWS: [http://twitterdemopccservices.cfapps.io/] (http://twitterdemopccservices.cfapps.io/)
+
+Pivotal Tracker: [https://www.pivotaltracker.com/n/projects/2009431](https://www.pivotaltracker.com/n/projects/2009431)
