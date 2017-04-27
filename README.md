@@ -5,6 +5,7 @@ Check out this [blog post](https://blog.pivotal.io/data-science-pivotal/p-o-v/ho
 
 Try the application: [Twitter NLP](http://twitternlp.cfapps.pez.pivotal.io/)
 
+
 ## Architecture
 
 ![Alt text](/readme/architecture.png?raw=true "architecture")
@@ -46,3 +47,10 @@ cf push
 ## Notes
 
 The project was inspired in part by [BirdWatch](https://github.com/matthiasn/BirdWatch)
+
+
+# Java/PCC Edition
+
+Git Project: [https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01](https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01)
+
+For the Java version deployed on PWS: [http://twitterdemopccservices.cfapps.io/] (http://twitterdemopccservices.cfapps.io/)
