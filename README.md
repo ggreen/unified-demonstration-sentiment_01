@@ -51,6 +51,34 @@ The project was inspired in part by [BirdWatch](https://github.com/matthiasn/Bir
 
 # Java/PCC Edition
 
+
+A new version of the application is being developed to support tapid model development using 
+
+- Open source tools: Python, Jupyter, MadLib (machine learning library)
+
+- Massively Parallel Processing (MPP)
+
+**Rapid model deployment to production**
+
+- Models are deployed as written by data scientist
+	
+	Feature generation and model scoring with no re-coding
+	
+- Models are developed on data stored in the data lake
+
+	Leverage your data lake to ensure consistency
+
+**Performance of the application scales to meet demand**
+
+The demo will perform the following operations
+- Scale the models as needed to process streaming data
+- Full automated using a cloud native architecture
+- Caching provides reservoirs of data for delivery to web apps
+- Caching enables efficient delivery of data to the data lake
+ 
+
+## Links
+
 Git Project: [https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01](https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01)
 
 Java deployed on PWS: [http://twitterdemopccservices.cfapps.io/] (http://twitterdemopccservices.cfapps.io/)
