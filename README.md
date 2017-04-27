@@ -56,7 +56,9 @@ A new version of the application is being developed to support tapid model devel
 
 - Open source tools: Python, Jupyter, MadLib (machine learning library)
 
-- Massively Parallel Processing (MPP)
+- Pivotal Cloud Cache
+
+- Greenplum Massively Parallel Processing (MPP)
 
 **Rapid model deployment to production**
 
