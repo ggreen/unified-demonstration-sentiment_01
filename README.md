@@ -60,6 +60,9 @@ A new version of the application is being developed to support tapid model devel
 
 - Greenplum Massively Parallel Processing (MPP)
 
+
+See [pccServices/twitterDemoPccServices](pccServices/twitterDemoPccServices)
+
 **Rapid model deployment to production**
 
 - Models are deployed as written by data scientist
