@@ -86,6 +86,6 @@ The demo will perform the following operations
 
 Git Project: [https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01](https://github.com/lwalstad-pivotal/unified-demonstration-sentiment_01)
 
-Java deployed on PWS: [http://twitterdemopccservices.cfapps.io/] (http://twitterdemopccservices.cfapps.io/)
+Java deployed on PWS: [http://twitterdemopccservices.cfapps.io/](http://twitterdemopccservices.cfapps.io/)
 
 Pivotal Tracker: [https://www.pivotaltracker.com/n/projects/2009431](https://www.pivotaltracker.com/n/projects/2009431)
