@@ -27,15 +27,12 @@ import org.springframework.data.gemfire.eviction.EvictionAttributesFactoryBean;
 import org.springframework.data.gemfire.eviction.EvictionPolicyType;
 import org.springframework.data.gemfire.expiration.ExpirationActionType;
 import org.springframework.data.gemfire.expiration.ExpirationAttributesFactoryBean;
-
 import io.pivotal.spring.cloud.service.gemfire.GemfireServiceConnectorConfig;
 
 @Configuration
 public class DemoConfig
 {
-	
-	// NOTE ideally, "placeholder" properties used by Spring's PropertyPlaceholderConfigurer would be externalized
-	// in order to avoid re-compilation on property value changes (so... this is just an example)!
+	 
 	@Bean
 	public Properties placeholderProperties() {
 		Properties placeholders = new Properties();
@@ -79,22 +76,7 @@ public class DemoConfig
 		CacheFactoryBean cacheFactory = new CacheFactoryBean();
 		cacheFactory.setProperties(gemfireProperties);
 		return cacheFactory;
-	}
-
-	/*
-	  NOTE need to qualify the RegionAttributes bean definition reference since GemFire's
-	  com.gemstone.gemfire.internal.cache.AbstractRegion class "implements" RegionAttributes (face-palm),
-	  which led Spring to the following Exception...
-	  java.lang.IllegalStateException: Failed to load ApplicationContext ...
-	  Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
-	  Error creating bean with name 'ExamplePartition' defined in class org.spring.data.gemfire.config.GemFireConfiguration:
-	  Unsatisfied dependency expressed through constructor argument with index 1 of type [com.gemstone.gemfire.cache.RegionAttributes]:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
-	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes;
-	  nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
-	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes
-	  */
+	}//------------------------------------------------
 	@Bean(name = "n_tweets")
 	@Autowired
 	public PartitionedRegionFactoryBean<Object, Object> n_tweets(Cache gemfireCache,
@@ -109,11 +91,11 @@ public class DemoConfig
 		examplePartitionRegion.setPersistent(false);
 
 		return examplePartitionRegion;
-	}
-
+	}//------------------------------------------------
+	@SuppressWarnings("deprecation")
 	@Bean
 	@Autowired
-	public RegionAttributesFactoryBean partitionRegionAttributes(PartitionAttributes partitionAttributes,
+	public RegionAttributesFactoryBean partitionRegionAttributes(PartitionAttributes<?,?> partitionAttributes,
 			EvictionAttributes evictionAttributes,
 			@Qualifier("entryTtiExpirationAttributes") ExpirationAttributes entryTti,
 			@Qualifier("entryTtlExpirationAttributes") ExpirationAttributes entryTtl) {
@@ -126,7 +108,7 @@ public class DemoConfig
 		regionAttributes.setPartitionAttributes(partitionAttributes);
 
 		return regionAttributes;
-	}
+	}//------------------------------------------------
 
 	@Bean
 	public EvictionAttributesFactoryBean defaultEvictionAttributes(
@@ -141,7 +123,7 @@ public class DemoConfig
 		evictionAttributes.setType(EvictionPolicyType.valueOfIgnoreCase(policyType));
 
 		return evictionAttributes;
-	}
+	}//------------------------------------------------
 
 	@Bean
 	public ExpirationAttributesFactoryBean entryTtiExpirationAttributes(
@@ -170,12 +152,12 @@ public class DemoConfig
 	}
 
 	@Bean
-	public PartitionAttributesFactoryBean defaultPartitionAttributes(
+	public PartitionAttributesFactoryBean<?,?> defaultPartitionAttributes(
 			@Value("${app.gemfire.region.partition.local-max-memory}") int localMaxMemory,
 			@Value("${app.gemfire.region.partition.redundant-copies}") int redundantCopies,
 			@Value("${app.gemfire.region.partition.total-max-memory}") int totalMaxMemory) {
 
-		PartitionAttributesFactoryBean partitionAttributes = new PartitionAttributesFactoryBean();
+		PartitionAttributesFactoryBean<?,?>  partitionAttributes = new PartitionAttributesFactoryBean<Object,Object>();
 
 		partitionAttributes.setLocalMaxMemory(localMaxMemory);
 		partitionAttributes.setRedundantCopies(redundantCopies);
