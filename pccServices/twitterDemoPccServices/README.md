@@ -10,8 +10,8 @@ Java version of the web UI application has been deployed to PWS.
 
 [http://twitterdemopccservices.cfapps.io/](http://twitterdemopccservices.cfapps.io/)
 
-The current version used stubbed Java based Spring Boot based web 
-services to simulation twitter feeds, popularity, rates, etc.
+The current version uses stubbed Java based Spring Boot based web 
+services to simulate twitter feeds, popularity, rates, etc.
 Also, the application has PCC/Gemfire enabled in embedded mode.
 
 Once access to a PCC service is available, we can be integrate the connection to 
