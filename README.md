@@ -1,4 +1,5 @@
 #Twitter NLP
+
 Twitter NLP is a microservice-based web application for analyzing Twitter sentiment in real time. The goal of the project is to show how to deploy a machine learning model, apply it in real time, and scale the model.
 
 Check out this [blog post](https://blog.pivotal.io/data-science-pivotal/p-o-v/how-to-scaling-a-machine-learning-model-using-pivotal-cloud-foundry) for more information.
@@ -89,3 +90,18 @@ Git Project: [https://github.com/lwalstad-pivotal/unified-demonstration-sentimen
 Java deployed on PWS: [http://twitterdemopccservices.cfapps.io/](http://twitterdemopccservices.cfapps.io/)
 
 Pivotal Tracker: [https://www.pivotaltracker.com/n/projects/2009431](https://www.pivotaltracker.com/n/projects/2009431)
+
+
+Presentation: [https://docs.google.com/a/pivotal.io/presentation/d/12mlkwR3IfzaUPfJJcYEWMlIr5k8M__QWyGPiXMeo2Bo/edit?usp=sharing](https://docs.google.com/a/pivotal.io/presentation/d/12mlkwR3IfzaUPfJJcYEWMlIr5k8M__QWyGPiXMeo2Bo/edit?usp=sharing)
+
+Project Folder: [https://drive.google.com/open?id=0B0qHQnAcjk1ISlR1TjBQUlJad2s](https://drive.google.com/open?id=0B0qHQnAcjk1ISlR1TjBQUlJad2s)
+
+
+#Connecting to PEZ with PCC
+https://login.run.pez.pivotal.io/login
+
+ cf login -a api.run.pez.pivotal.io
+
+
+
+

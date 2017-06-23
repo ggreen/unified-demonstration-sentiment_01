@@ -8,13 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.pivotal.demo.pcc.twitter.data.Tweet;
 
 /**
  * TODO: centralize Access-Control-Allow-Origin 
@@ -24,8 +21,6 @@ import io.pivotal.demo.pcc.twitter.data.Tweet;
 @RestController
 public class TweetRateService
 {
-	//TODO: calculate this data from PCC
-	private Random r = new Random(System.currentTimeMillis());
 	
 	@CrossOrigin	
 	@RequestMapping(value="/tweet_rate")
@@ -42,14 +37,15 @@ public class TweetRateService
 		///{tweetRate:0, avgPolarity: 0};
 
 
-
+		//TODO: calculate this data from PCC
+		Random r = new Random(System.currentTimeMillis());
 		
 		for(int i =0; i< 20 ; i++)
 		{
 			
 			response.getWriter().println("data: {\"tweetRate\":\""+r.nextInt(23)+"\", \"avgPolarity\": \""+r.nextInt(5)+"\"}\r\n");			
 		}
-	}//------------------------------------------------
+	}
 
 	@CrossOrigin
 	@RequestMapping(value="/num_tweets")
@@ -92,14 +88,9 @@ public class TweetRateService
 		response.setHeader("Cache-Control","no-cache");
 		response.setCharacterEncoding("UTF-8");
 
-		Tweet tweet = new Tweet();
-		
-		
 		
 		for(int i =0; i< 20 ; i++)
 		{
-			tweet.setTweet("Testing");
-			tweet.setPolarity(r.nextDouble());
 			response.getWriter().println("data: {\"tweet\": \"RT @ChelseaFC: Superb header by Gary Cahill to put us back in front, tremendous bravery by the skipper and wonderful execution. #CHESOU\", \"polarity\": \"0.87\"}\r\n");
 		}
 		

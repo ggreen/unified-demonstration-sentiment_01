@@ -26,10 +26,10 @@ resp.raise_for_status()
 cl = cPickle.loads(resp.content)
 
 # connect to redis for storing logging info
-r = helper_functions.connect_redis_db()
+#GG: r = helper_functions.connect_redis_db()
 
 # init tweet counter
-r['tweet_counter'] = 0
+#GG r['tweet_counter'] = 0
 
 def regex_preprocess(raw_tweets):
     pp_text = pd.Series(raw_tweets)
@@ -45,18 +45,30 @@ def regex_preprocess(raw_tweets):
 
 app = Flask(__name__)
 
+app.route('/test')
+@helper_functions.crossdomain(origin='*')
+def sentiment_compute():
+    
+    print("x:"+"Sdsd")
+    
+
+    return(jsonify({"polarity" : "sdsdsb"}))
+
 @app.route('/polarity_compute', methods=['POST','OPTIONS'])
 @helper_functions.crossdomain(origin='*')
 def sentiment_compute():
     req = request.get_json(force=True)
     print request.get_json()
     X = regex_preprocess(req['data'])
+    
+    print("x:"+x)
+    
     prediction = cl.predict_proba(X)[:][:,1]
 
     # for logging
     tweet_packet = {'time': time.time(),'n_tweet':len(X)}
-    r.lpush('n_tweets',json.dumps(tweet_packet))
-    r['tweet_counter'] = int(r['tweet_counter']) + len(X)
+    #GG r.lpush('n_tweets',json.dumps(tweet_packet))
+    #GG r['tweet_counter'] = int(r['tweet_counter']) + len(X)
 
     return(jsonify({"polarity" : prediction.tolist()}))
 
@@ -70,4 +82,3 @@ if __name__ == "__main__":
         PORT = int(os.getenv("PORT"))
         DEBUG = False
         app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
-
