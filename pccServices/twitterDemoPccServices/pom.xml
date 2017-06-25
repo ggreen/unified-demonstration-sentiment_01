@@ -49,7 +49,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-social-twitter</artifactId>
 		</dependency>
-
+	<dependency>
+			<groupId>com.github.nyla-solutions</groupId>
+			<artifactId>gedi-geode-extensions-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

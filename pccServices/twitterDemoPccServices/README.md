@@ -52,7 +52,7 @@ cf bind-service gedi-geode-extensions-rest unifed-pcc
 cf restage gedi-geode-extensions-rest
 
 
-cf restage gedi-geode-extensions-rest
+cf bind-service twitterDemoPccServices  unifed-pcc
 
 
 ##Initialize Gfsh

@@ -1,6 +1,7 @@
 package io.pivotal.demo.pcc.twitter;
 
 import java.io.IOException;
+import java.util.Queue;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -8,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
-import org.json.JSONObject;
+import org.apache.geode.pdx.JSONFormatter;
+import org.apache.geode.pdx.PdxInstance;
+import org.json.JSONException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.pivotal.demo.pcc.twitter.data.Tweet;
 
 /**
  * TODO: centralize Access-Control-Allow-Origin 
@@ -25,7 +26,8 @@ import io.pivotal.demo.pcc.twitter.data.Tweet;
 public class TweetRateService
 {
 	//TODO: calculate this data from PCC
-	private Random r = new Random(System.currentTimeMillis());
+	//private Random r = new Random(System.currentTimeMillis());
+
 	
 	@CrossOrigin	
 	@RequestMapping(value="/tweet_rate")
@@ -39,16 +41,21 @@ public class TweetRateService
 		response.setHeader("Cache-Control","no-cache");
 		response.setCharacterEncoding("UTF-8");
 		
-		///{tweetRate:0, avgPolarity: 0};
-
-
-
+		//response.getWriter().println("data: {\"tweetRate\":\""+tweetRate+"\", \"avgPolarity\": \""+avgPolarity+"\"}\r\n");
+		
+		PdxInstance pdx = this.tweet_rates.get("tweet_rates");
 		
 		for(int i =0; i< 20 ; i++)
-		{
+	    {
 			
-			response.getWriter().println("data: {\"tweetRate\":\""+r.nextInt(23)+"\", \"avgPolarity\": \""+r.nextInt(5)+"\"}\r\n");			
-		}
+			response.getWriter().println("data: {\"tweetRate\":\""+pdx.getField("tweetRate")+"\", \"avgPolarity\": \""+pdx.getField("avgPolarity")+"\"}\r\n");
+	    }
+		
+		//for(int i =0; i< 20 ; i++)
+		//{
+			
+			//response.getWriter().println("data: {\"tweetRate\":\""+r.nextInt(23)+"\", \"avgPolarity\": \""+r.nextInt(5)+"\"}\r\n");			
+		//}
 	}//------------------------------------------------
 
 	@CrossOrigin
@@ -57,10 +64,10 @@ public class TweetRateService
 	public String num_tweets(HttpServletResponse respone)
 	{
 		//TODO: calculate this data from PCC
-		Random r = new Random(System.currentTimeMillis());
+		//Random r = new Random(System.currentTimeMillis());
 		respone.setHeader("Access-Control-Allow-Origin", "*");
 		
-		return String.valueOf(r.nextInt(1370754));
+		return String.valueOf(this.liveTweetsQueue.size());
 	}//------------------------------------------------
 	
 	/**
@@ -83,7 +90,7 @@ public class TweetRateService
 	@RequestMapping(value="/live_tweets")
 	@ResponseBody
 	public void live_tweets(HttpServletResponse response)
-	throws IOException
+	throws IOException,  JSONException
 	{
 		//TODO: calculate this data from PCC
 		//Ex: "{"tweet": "Congratulations!!@Jeannettehyde https://t.co/vOkcxwmBft", "polarity": "0.95"}"
@@ -91,20 +98,35 @@ public class TweetRateService
 		response.setContentType("text/event-stream");
 		response.setHeader("Cache-Control","no-cache");
 		response.setCharacterEncoding("UTF-8");
-
-		Tweet tweet = new Tweet();
+				
+		PdxInstance tweetPdx = null;
 		
+		int tweetRate = liveTweetsQueue.size();
+		double avgPolarity = 0;
+		int cnt = 0;
 		
-		
-		for(int i =0; i< 20 ; i++)
+		double polarity = 0;
+		while((tweetPdx = liveTweetsQueue.poll()) != null)
 		{
-			tweet.setTweet("Testing");
-			tweet.setPolarity(r.nextDouble());
-			response.getWriter().println("data: {\"tweet\": \"RT @ChelseaFC: Superb header by Gary Cahill to put us back in front, tremendous bravery by the skipper and wonderful execution. #CHESOU\", \"polarity\": \"0.87\"}\r\n");
+			polarity = Double.parseDouble(String.valueOf(tweetPdx.getField("polarity")));
+			response.getWriter().println(String.format("data: {\"tweet\": \"%s\", \"polarity\": \"%s\"}\r\n", tweetPdx.getField("tweet"), polarity));
+			
+			avgPolarity += polarity;
+			cnt++;
+			
 		}
 		
+		if(cnt >  0)
+		{
+			avgPolarity = (avgPolarity)/(cnt*1.0);		
+		}
+		
+
+		String jsonString = String.format("{\"tweetRate\":\"%s\" , \"avgPolarity\": \"%s\"}",tweetRate,avgPolarity);
+	    this.tweet_rates.put("tweet_rates",JSONFormatter.fromJSON(jsonString));	
+		
 	}//------------------------------------------------
-	@CrossOrigin
+	/*@CrossOrigin
 	@RequestMapping(value="/gen_tweet_stats",headers ={"Access-Control-Allow-Origin","*"})
 	@ResponseBody
 	public String gen_tweet_stats(String key, String value)
@@ -113,11 +135,17 @@ public class TweetRateService
 		Object old = n_tweets.put(key, value);
 
 		return String.valueOf(old);
-	}
+	}*/
 
 	@Resource
-	ClientCache gemfireCache;
+	private ClientCache gemfireCache;
 
 	@Resource
-	Region<Object, Object> n_tweets;
+	private Region<Object, Object> tweets;
+	
+	@Resource
+	private Region<String, PdxInstance> tweet_rates;
+	
+	@Resource 
+	private Queue<PdxInstance> liveTweetsQueue;
 }
