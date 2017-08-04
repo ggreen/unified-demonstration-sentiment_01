@@ -10,3 +10,6 @@ manifest.yml
 .settings/
 *.swp
 
+.DS_Store
+pccServices/twitterDemoPccServices/client.log
+
