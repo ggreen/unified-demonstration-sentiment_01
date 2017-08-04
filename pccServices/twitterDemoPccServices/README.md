@@ -74,14 +74,14 @@ create region --name=tweet_rates --type=REPLICATE
 
 # Rest End point
 
-The following the URL for a custom REST endpoint to based tweets to PCC in the Pivotal PEZ environment
+Use the following  URL REST endpoint to push tweets to PCC in the Pivotal PEZ environment
 
 
 	http://gedi-geode-extensions-rest.cfapps.pez.pivotal.io
 
 
 
-Post JSON object to the following end point
+Post JSON objects to the following end point
 
 	http://gedi-geode-extensions-rest.cfapps.pez.pivotal.io/region/tweets/key
 
