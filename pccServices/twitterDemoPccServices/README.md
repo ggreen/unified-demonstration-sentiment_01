@@ -25,7 +25,7 @@ UI application would read/analysis.
 	cd unified-demonstration-sentiment_01/pccServices/twitterDemoPccServices
 	mvn clean package
 
-##PWS Deployment 
+## PWS Deployment 
 
 	 cf login --sso 
 	 
@@ -55,7 +55,7 @@ Create service key
 	cf bind-service twitterDemoPccServices  unifed-pcc
 
 
-##Initialize Gfsh
+## Initialize Gfsh
 
 	cf service-key unifed-pcc unifed-pcc-key
 	
@@ -69,3 +69,27 @@ Create service key
  
 create region --name=tweets --type=PARTITION
 create region --name=tweet_rates --type=REPLICATE
+
+
+
+# Rest End point
+
+The following the URL for a custom REST endpoint to based tweets to PCC in the Pivotal PEZ environment
+
+
+	http://gedi-geode-extensions-rest.cfapps.pez.pivotal.io
+
+
+
+Post JSON object to the following end point
+
+	http://gedi-geode-extensions-rest.cfapps.pez.pivotal.io/region/tweets/key
+
+Example JSON
+
+
+	{
+	  "tweet" : "Hello world",
+	  "polarity": 0.5
+	}
+
