@@ -5,7 +5,6 @@ It uses Pivotal Cloud Cache to store and aggregate tweets.
 It calculates tweets per second using technologies such
 as  PCC/Apache Geode continuous queries and HTTP Server Side Events.
 
-
 Java version of the web UI application has been deployed to PWS.
 
 
